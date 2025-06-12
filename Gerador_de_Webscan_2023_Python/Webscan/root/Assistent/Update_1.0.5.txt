@@ -1,0 +1,3 @@
+Atualizações Webscan
+
+Corrigida a função antiga do Box: new Potree.Volume() para new Potree.BoxVolume()
