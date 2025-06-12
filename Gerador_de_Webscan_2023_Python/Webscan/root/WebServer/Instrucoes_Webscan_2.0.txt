@@ -1,0 +1,7 @@
+Zipar somente as seguintes pastas:
+
+assets,
+comments,
+models,
+modules,
+pointclouds

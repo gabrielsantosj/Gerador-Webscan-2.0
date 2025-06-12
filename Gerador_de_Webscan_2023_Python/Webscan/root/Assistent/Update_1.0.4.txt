@@ -1,0 +1,5 @@
+Atualizações Webscan
+
+Removida inserção de comentários na nuvem (Estava atrapalhando o módulo de medidas)
+Corrigido o BUG do ModoBox
+EyeDome ativo por padrão

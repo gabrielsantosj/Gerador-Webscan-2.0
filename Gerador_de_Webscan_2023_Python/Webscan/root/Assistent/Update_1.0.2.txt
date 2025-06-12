@@ -1,0 +1,10 @@
+Atualizações Gerador
+
+- Corrigido bug de duplicação das pastas do Truview e Panorâmicas que estava causando mal funcionamento.
+
+Atualizações Webscan
+
+Corrigido bug da inserção de comentários de núvem
+Corrigido bug visual do BoxMode
+Incluido CSS do Botão Vista 3D da imagem 360º
+Inserção de Modelos 3D em qualquer nuvem a partir do cookie de administrador.

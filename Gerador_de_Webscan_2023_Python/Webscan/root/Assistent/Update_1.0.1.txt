@@ -1,0 +1,9 @@
+Corrigido o erro de loop do gerador.
+Corrigido bug de unicode da versão 3.12 do Python
+O gerador agora mostra a versão ao iniciar
+Trocado texto e css do botão voltar para a nuvem na foto.
+A limpeza de arquivos temporários só ocorre quando for selecionado um novo PTS. Isso evita de perder um Webscan apenas por iniciar o Gerador através do atalho.
+
+Atualizações Webscan
+
+Comentário nas Fotos

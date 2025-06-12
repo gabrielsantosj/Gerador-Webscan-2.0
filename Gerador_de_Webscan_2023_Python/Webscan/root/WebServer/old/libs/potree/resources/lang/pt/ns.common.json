@@ -1,0 +1,7 @@
+{
+	"simple_en": "ok_from_common_pt",
+	"test": {
+		"simple_pt": "ok_from_common_pt",
+		"fallback_pt": "ok_from_common_pt-fallback"
+	}
+}

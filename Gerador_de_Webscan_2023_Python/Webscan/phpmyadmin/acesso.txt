@@ -1,0 +1,4 @@
+PHPMYADMIN
+
+User: root
+Pass: usbw

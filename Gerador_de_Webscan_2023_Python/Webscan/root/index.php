@@ -1,0 +1,2 @@
+<?php $dh = opendir("./"); while (false !== ($filename = readdir($dh))){$files[] = $filename;if($filename != "." && $filename != ".."){if(!strstr($filename, '.php', false)){if(is_dir($filename)){header("Location: ".$filename."");}}}} 
+?>

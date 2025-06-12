@@ -1,0 +1,7 @@
+Atualizações Webscan
+
+Corrigido acionamento de teclas de atalho ao digitar comentários na nuvem e na foto
+Salvamento de última posição de giro e inclinação na foto
+Envio de e-mails na inserção, edição e remoção de comentários na nuvem e na foto 360º
+Gerenciador de comentários para todos os usuários
+

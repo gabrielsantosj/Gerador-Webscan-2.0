@@ -1,0 +1,7 @@
+PHP Warning:  PHP Startup: Unable to load dynamic library 'E:/Dados/Gerador_de_Webscan_2023_Python/Webscan\\php\\ext\\php_curl.dll' - %1 n\xef\xbf\xbdo \xef\xbf\xbd um aplicativo Win32 v\xef\xbf\xbdlido.\r\n in Unknown on line 0
+[Fri Aug 02 13:09:07.077255 2024] [mpm_winnt:notice] [pid 1304:tid 776] AH00455: Apache/2.4.29 (Win32) PHP/7.1.11 configured -- resuming normal operations
+[Fri Aug 02 13:09:07.077255 2024] [mpm_winnt:notice] [pid 1304:tid 776] AH00456: Server built: Nov  3 2017 01:01:54
+[Fri Aug 02 13:09:07.077255 2024] [core:notice] [pid 1304:tid 776] AH00094: Command line: 'E:\\Dados\\Gerador_de_Webscan_2023_Python\\Webscan/apache2/bin/httpd_usbwv8.exe -d E:/Dados/Gerador_de_Webscan_2023_Python/Webscan/apache2'
+[Fri Aug 02 13:09:07.081256 2024] [mpm_winnt:notice] [pid 1304:tid 776] AH00418: Parent: Created child process 11600
+PHP Warning:  PHP Startup: Unable to load dynamic library 'E:/Dados/Gerador_de_Webscan_2023_Python/Webscan\\php\\ext\\php_curl.dll' - %1 n\xef\xbf\xbdo \xef\xbf\xbd um aplicativo Win32 v\xef\xbf\xbdlido.\r\n in Unknown on line 0
+[Fri Aug 02 13:09:08.017398 2024] [mpm_winnt:notice] [pid 11600:tid 240] AH00354: Child: Starting 64 worker threads.

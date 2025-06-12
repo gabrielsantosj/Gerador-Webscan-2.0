@@ -1,0 +1,3 @@
+Atualizações Webscan
+
+Corrigida a visualização de comentários por super usuários.
