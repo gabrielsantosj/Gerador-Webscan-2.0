@@ -60,7 +60,7 @@ def Panoramics():
         panoramics_dir = askdirectory(title='Selecione o diretório das imagens panoramicas')
         if panoramics_dir != "":
             shutil.copytree(panoramics_dir, panoramics_dir+'/backup', dirs_exist_ok=True)
-            panoramics_total = len(glob.glob(panoramics_dir+"\*.jpg"))
+            panoramics_total = len(glob.glob(panoramics_dir+"/*.jpg"))
             current_image = 0
             for filename in glob.glob(panoramics_dir+"/*.jpg"):
                 current_image += 1
