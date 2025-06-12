@@ -1,0 +1,1 @@
+# Gerador-Webscan-2.0
