@@ -23,15 +23,15 @@ trait ApcuTrait
 {
     public static function isSupported()
     {
-        return function_exists('apcu_fetch') && ini_get('apc.enabled');
+        return \function_exists('apcu_fetch') && filter_var(ini_get('apc.enabled'), \FILTER_VALIDATE_BOOLEAN);
     }
 
-    private function init($namespace, $defaultLifetime, $version)
+    private function init(string $namespace, int $defaultLifetime, ?string $version)
     {
         if (!static::isSupported()) {
-            throw new CacheException('APCu is not enabled');
+            throw new CacheException('APCu is not enabled.');
         }
-        if ('cli' === PHP_SAPI) {
+        if ('cli' === \PHP_SAPI) {
             ini_set('apc.use_request_time', 0);
         }
         parent::__construct($namespace, $defaultLifetime);
@@ -51,10 +51,27 @@ trait ApcuTrait
      */
     protected function doFetch(array $ids)
     {
+        $unserializeCallbackHandler = ini_set('unserialize_callback_func', __CLASS__.'::handleUnserializeCallback');
         try {
-            return apcu_fetch($ids) ?: array();
+            $values = [];
+            $ids = array_flip($ids);
+            foreach (apcu_fetch(array_keys($ids), $ok) ?: [] as $k => $v) {
+                if (!isset($ids[$k])) {
+                    // work around https://github.com/krakjoe/apcu/issues/247
+                    $k = key($ids);
+                }
+                unset($ids[$k]);
+
+                if (null !== $v || $ok) {
+                    $values[$k] = $v;
+                }
+            }
+
+            return $values;
         } catch (\Error $e) {
-            throw new \ErrorException($e->getMessage(), $e->getCode(), E_ERROR, $e->getFile(), $e->getLine());
+            throw new \ErrorException($e->getMessage(), $e->getCode(), \E_ERROR, $e->getFile(), $e->getLine());
+        } finally {
+            ini_set('unserialize_callback_func', $unserializeCallbackHandler);
         }
     }
 
@@ -71,8 +88,8 @@ trait ApcuTrait
      */
     protected function doClear($namespace)
     {
-        return isset($namespace[0]) && class_exists('APCuIterator', false) && ('cli' !== PHP_SAPI || ini_get('apc.enable_cli'))
-            ? apcu_delete(new \APCuIterator(sprintf('/^%s/', preg_quote($namespace, '/')), APC_ITER_KEY))
+        return isset($namespace[0]) && class_exists(\APCuIterator::class, false) && ('cli' !== \PHP_SAPI || filter_var(ini_get('apc.enable_cli'), \FILTER_VALIDATE_BOOLEAN))
+            ? apcu_delete(new \APCuIterator(sprintf('/^%s/', preg_quote($namespace, '/')), \APC_ITER_KEY))
             : apcu_clear_cache();
     }
 
@@ -91,7 +108,7 @@ trait ApcuTrait
     /**
      * {@inheritdoc}
      */
-    protected function doSave(array $values, $lifetime)
+    protected function doSave(array $values, int $lifetime)
     {
         try {
             if (false === $failures = apcu_store($values, null, $lifetime)) {
@@ -99,15 +116,13 @@ trait ApcuTrait
             }
 
             return array_keys($failures);
-        } catch (\Error $e) {
-        } catch (\Exception $e) {
-        }
+        } catch (\Throwable $e) {
+            if (1 === \count($values)) {
+                // Workaround https://github.com/krakjoe/apcu/issues/170
+                apcu_delete(array_key_first($values));
+            }
 
-        if (1 === count($values)) {
-            // Workaround https://github.com/krakjoe/apcu/issues/170
-            apcu_delete(key($values));
+            throw $e;
         }
-
-        throw $e;
     }
 }

@@ -20,24 +20,24 @@ use Symfony\Component\ExpressionLanguage\Compiler;
  */
 class BinaryNode extends Node
 {
-    private static $operators = array(
+    private const OPERATORS = [
         '~' => '.',
         'and' => '&&',
         'or' => '||',
-    );
+    ];
 
-    private static $functions = array(
+    private const FUNCTIONS = [
         '**' => 'pow',
         '..' => 'range',
         'in' => 'in_array',
         'not in' => '!in_array',
-    );
+    ];
 
-    public function __construct($operator, Node $left, Node $right)
+    public function __construct(string $operator, Node $left, Node $right)
     {
         parent::__construct(
-            array('left' => $left, 'right' => $right),
-            array('operator' => $operator)
+            ['left' => $left, 'right' => $right],
+            ['operator' => $operator]
         );
     }
 
@@ -57,9 +57,9 @@ class BinaryNode extends Node
             return;
         }
 
-        if (isset(self::$functions[$operator])) {
+        if (isset(self::FUNCTIONS[$operator])) {
             $compiler
-                ->raw(sprintf('%s(', self::$functions[$operator]))
+                ->raw(sprintf('%s(', self::FUNCTIONS[$operator]))
                 ->compile($this->nodes['left'])
                 ->raw(', ')
                 ->compile($this->nodes['right'])
@@ -69,8 +69,8 @@ class BinaryNode extends Node
             return;
         }
 
-        if (isset(self::$operators[$operator])) {
-            $operator = self::$operators[$operator];
+        if (isset(self::OPERATORS[$operator])) {
+            $operator = self::OPERATORS[$operator];
         }
 
         $compiler
@@ -89,13 +89,13 @@ class BinaryNode extends Node
         $operator = $this->attributes['operator'];
         $left = $this->nodes['left']->evaluate($functions, $values);
 
-        if (isset(self::$functions[$operator])) {
+        if (isset(self::FUNCTIONS[$operator])) {
             $right = $this->nodes['right']->evaluate($functions, $values);
 
             if ('not in' === $operator) {
-                return !in_array($left, $right);
+                return !\in_array($left, $right);
             }
-            $f = self::$functions[$operator];
+            $f = self::FUNCTIONS[$operator];
 
             return $f($left, $right);
         }
@@ -135,9 +135,9 @@ class BinaryNode extends Node
             case '<=':
                 return $left <= $right;
             case 'not in':
-                return !in_array($left, $right);
+                return !\in_array($left, $right);
             case 'in':
-                return in_array($left, $right);
+                return \in_array($left, $right);
             case '+':
                 return $left + $right;
             case '-':
@@ -147,8 +147,16 @@ class BinaryNode extends Node
             case '*':
                 return $left * $right;
             case '/':
+                if (0 == $right) {
+                    throw new \DivisionByZeroError('Division by zero.');
+                }
+
                 return $left / $right;
             case '%':
+                if (0 == $right) {
+                    throw new \DivisionByZeroError('Modulo by zero.');
+                }
+
                 return $left % $right;
             case 'matches':
                 return preg_match($right, $left);
@@ -157,6 +165,6 @@ class BinaryNode extends Node
 
     public function toArray()
     {
-        return array('(', $this->nodes['left'], ' '.$this->attributes['operator'].' ', $this->nodes['right'], ')');
+        return ['(', $this->nodes['left'], ' '.$this->attributes['operator'].' ', $this->nodes['right'], ')'];
     }
 }
